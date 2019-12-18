@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/gigz/Documents/George/MachineLearning/machine-learning/NLP/chat_bot_v2/model.tflearn"
+all_model_checkpoint_paths: "/home/gigz/Documents/George/MachineLearning/machine-learning/NLP/chat_bot_v2/model.tflearn"
