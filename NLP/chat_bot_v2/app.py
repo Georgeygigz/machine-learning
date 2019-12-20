@@ -1,24 +1,18 @@
-import nltk
-import numpy
-import tensorflow.compat.v1 as tf
-tf.disable_v2_behavior()
-import tflearn
-import random
-import json
 import os
 import sys
-from nltk.stem.lancaster import LancasterStemmer
+import json
+import nltk
+import numpy
 import pickle
+import random
+import tflearn
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+from nltk.stem.lancaster import LancasterStemmer
 
-# # Config to turn on JIT compilation
-# config = tf.ConfigProto()
-# config.graph_options.optimizer_options.global_jit_level = tf.OptimizerOptions.ON_1
-
-# session = tf.Session(config=config)
-
-# # how to set the TF_SetConfig in the C API
 
 stemmer = LancasterStemmer()
+
 with open(os.path.join(sys.path[0],'intents.json')) as file:
     data = json.load(file)
 try:
@@ -72,21 +66,18 @@ except:
 
     training = numpy.array(training)
     output = numpy.array(output)
-# import pdb; pdb.set_trace()
 
     with open(os.path.join(sys.path[0],'data.pickle'),'wb') as f:
         pickle.dump((words, labels, training, output),f)
-
 
 tf.reset_default_graph()
 net = tflearn.input_data(shape= [None, len(training[0])])
 net = tflearn.fully_connected(net,8)
 net = tflearn.fully_connected(net,8)
-net = tflearn.fully_connected(net,len(output[0]), activation="linear")
+net = tflearn.fully_connected(net,len(output[0]), activation="softmax")
 net = tflearn.regression(net)
 
 model =tflearn.DNN(net)
-
 
 try:
     model.load("model.tflearn")
